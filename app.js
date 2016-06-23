@@ -1,9 +1,14 @@
 //node modules
 var express = require('express');
 var app = express();
+var fs = require('fs');
+
+//includes
+var common = require('./common');
 
 //global vars
 var port = 8080;
+var requestLogFile = "./log/requests.txt"
 
 //instantiate and listen to requests
 var instance = app.listen(port, function() {
@@ -24,7 +29,12 @@ instance.on('connect', function(socket) {
 
 //log request activity
 instance.on('request', function(message) {
-	console.log('Client [%s] request for %s', message.socket.address().address, message.url);
+	  //console.log('Client [%s] request for %s', message.socket.address().address, message.url);
+		fs.appendFile(requestLogFile, new Date() + '\tClient [' + message.socket.address().address +'] request for [' + message.url+ ']\n', function(err) {
+		if(err) {
+			console.log("Error writing to log file: %",err);
+		}
+	}); 
 });
 	
 //default get request
