@@ -1,12 +1,14 @@
 //node modules
 var express = require('express');
-var app = express();
 var fs = require('fs');
+var pug = require('pug');
+var app = express();
+app.set('view engine', 'pug');
 
 //includes
 var common = require('./common');
 
-//global vars
+// variable instantiation
 var port = 8080;
 var requestLogFile = "./log/requests.txt"
 
@@ -39,7 +41,7 @@ instance.on('request', function(message) {
 	
 //default get request
 app.get(['/','/index'], function(req,res) {
-	res.send('index');
+	res.render( 'index',{'request': req, 'datetime' : (new Date()).toString()} );
 });
 
 //help

@@ -1,0 +1,12 @@
+html
+	body
+		p 
+			| Your IP address is [#{request.ip}]
+		p
+			| Here are some details about your request
+			ul
+				each val,index in request
+					if typeof val != 'function' && typeof val != 'object'
+						li= index + ": " + val
+		p.
+			This page was rendered at #{datetime}
